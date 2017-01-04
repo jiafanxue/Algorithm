@@ -5,7 +5,11 @@ Question:
 		0.9 = 9/10
 		0.333(3) = 1/3
 	Give a finite or infinite decimal, return the fraction with the smallest denominator of the fraction.
-	llke. 0.3, 0.30, 0.3(000), 0.3333(3333), ......
+	
+	input: 
+		0.3, 0.30, 0.3(000), 0.3333(3333), ......
+	output:
+		3/10, 3/10, 3/10, 1/3, ......
 */
 #include <cmath>
 #include <cstdlib>
@@ -13,6 +17,11 @@ Question:
 #include <vector>
 #include <string>
 using namespace std;
+
+int gcd(int x, int y)
+{
+	return (!y) ? x : gcd(y, x % y);
+}
 
 /*
 	number = 0.a1a2a3...an(b1b2b3...bm)
@@ -46,14 +55,16 @@ void accurate_express_float(string s)
 		str_A_b = s.substr(iBracketLeft + 1, size_b);
 		istr_A = (atoi(str_A_a.c_str()) * (pow(10, size_b) - 1) + atoi(str_A_b.c_str()));
 		istr_B = (pow(10, size_b) - 1) * pow(10, size_a);
-		cout << istr_A << "/" << istr_B << endl;
+		// cout << (int)istr_A << "/" << (int)istr_B << endl;
+		cout << (int)istr_A / gcd(istr_A, istr_B) << "/" << (int)istr_B / gcd(istr_A, istr_B) << endl;
 	}
 	else {
 		int size_a = size_s - iPoint - 1;
 		str_A_a = s.substr(iPoint + 1, size_a);
 		istr_A = atoi(str_A_a.c_str());
 		istr_B = pow(10, size_a);
-		cout << istr_A << "/" << istr_B << endl;
+		// cout << (int)istr_A << "/" << (int)istr_B << endl;
+		cout << (int)istr_A / gcd(istr_A, istr_B) << "/" << (int)istr_B / gcd(istr_A, istr_B) << endl;
 	}
 }
 
