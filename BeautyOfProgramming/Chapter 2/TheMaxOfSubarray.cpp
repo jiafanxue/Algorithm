@@ -38,15 +38,15 @@ int TheMaxOfSubarray_2(vector<int> vec)
 	sArray[0] = 1;
 	tArray[size + 1] = 1;
 	for(unsigned i = 1; i <= vec.size(); ++i) {
-		s[i] = s[i - 1] * vec[i - 1];
-		t[i] = t[i + 1] * vec[i];
-		p[i] = s[i - 1] * t[i + 1];
+		sArray[i] = sArray[i - 1] * vec[i - 1];
+		tArray[i] = tArray[i + 1] * vec[i];
+		pArray[i] = sArray[i - 1] * tArray[i + 1];
 	}
 
-	int sum = p[1];
+	int sum = pArray[1];
 	for(int i = 1; i < size; ++i) {
-		if(sum < p[i]) {
-			sum = p[i];
+		if(sum < pArray[i]) {
+			sum = pArray[i];
 		}
 	}	
 	return sum;
@@ -56,5 +56,6 @@ int main(int argc, char const *argv[])
 {
 	vector<int> vec = {4, 3, 6, 1, 9, 2, 8, 5, 7, 10};
 	cout << TheMaxOfSubarray_1(vec) << endl;
+	cout << TheMaxOfSubarray_2(vec) << endl;
 	return 0;
 }
