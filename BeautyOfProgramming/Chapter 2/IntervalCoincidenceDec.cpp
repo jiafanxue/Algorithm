@@ -17,7 +17,7 @@ using namespace std;
 */
 bool IntervalCoinindenceDec()
 {
-
+	//
 }
 
 int main(int argc, char const *argv[])
