@@ -94,7 +94,9 @@ data_struct FindMaximmSubarray(const vector<int>& vec, int low, int high)
 	else if(right_temp.sum >= left_temp.sum && right_temp.sum >= crossing_temp.sum) {
 		return right_temp;
 	}
-	return crossing_temp;
+	else {
+		return crossing_temp;
+	}
 }
 
 int main(int argc, char const *argv[])
