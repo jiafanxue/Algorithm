@@ -10,6 +10,7 @@
 #include <algorithm>
 #include <climits>
 #include <iostream>
+#include <utility>
 #include <vector>
 using namespace std;
 
@@ -22,9 +23,9 @@ int cut_rod(const vector<int>& price_list, int steel_length)
 		return 0;
 	}
 	int max_profit = INT_MIN;
-	for (int i = 0; i < steel_length; ++i) {
+	for (int i = 1; i <= steel_length; ++i) {
 		max_profit = std::max(max_profit,
-		                      price_list[i] + cut_rod(price_list, steel_length - i - 1));
+		                      price_list[i] + cut_rod(price_list, steel_length - i));
 	}
 	return max_profit;
 }
@@ -50,9 +51,9 @@ int memorized_cut_rod_aux(const vector<int>& price_list, int steel_length, vecto
 		max_profit = 0;
 	}
 	else {
-		for (int i = 0; i < steel_length; ++i) {
+		for (int i = 1; i <= steel_length; ++i) {
 			max_profit = std::max(max_profit,
-			                      price_list[i] + memorized_cut_rod_aux(price_list, steel_length - i - 1, memorandum));
+			                      price_list[i] + memorized_cut_rod_aux(price_list, steel_length - i, memorandum));
 		}
 	}
 	memorandum[steel_length] = max_profit;
@@ -62,11 +63,11 @@ int memorized_cut_rod_aux(const vector<int>& price_list, int steel_length, vecto
 // 方法二：自底向上法
 int bottom_up_cut_rod(const vector<int>& price_list, int steel_length)
 {
-	int * memorandum = new int[steel_length + 1];
+	int* memorandum = new int[steel_length + 1];
 	memorandum[0] = 0;
-	for (int i = 1; i < steel_length; ++i) {
+	for (int i = 1; i <= steel_length; ++i) {
 		int max_profit = INT_MIN;
-		for (int j = 1; j < i; ++j) {
+		for (int j = 1; j <= i; ++j) {
 			max_profit = std::max(max_profit, price_list[j] + memorandum[i - j]);
 		}
 		memorandum[i] = max_profit;
@@ -74,9 +75,41 @@ int bottom_up_cut_rod(const vector<int>& price_list, int steel_length)
 	return memorandum[steel_length];
 }
 
+// 自底向上改进版
+std::pair<vector<int>, vector<int>> extended_bottom_up_cut_rod(
+                                     const vector<int>& price_list, int steel_length)
+{
+	vector<int> result(price_list.size());
+	// int* memorandum = new int[steel_length + 1];
+	vector<int> memorandum(steel_length + 1);
+	memorandum[0] = 0;
+	for (int i = 1; i <= steel_length; ++i) {
+		int max_profit = INT_MIN;
+		for (int j = 1; j <= i; ++j) {
+			if (max_profit < price_list[j] + memorandum[i - j]) {
+				max_profit = price_list[j] + memorandum[i - j];
+				result[i] = j;
+			}
+		}
+		memorandum[i] = max_profit;
+	}
+	return std::make_pair(memorandum, result);
+}
+
+void print_cut_rod_solution(const vector<int>& price_list, int steel_length)
+{
+	auto vvpair = extended_bottom_up_cut_rod(price_list, steel_length);
+	cout << vvpair.first[steel_length] << endl;
+	while(steel_length > 0) {
+		cout << vvpair.second[steel_length] << " ";
+		steel_length -= vvpair.second[steel_length];
+	}
+	cout << endl;
+}
+
 int main(int argc, char const *argv[])
 {
-	vector<int> price_list = {1, 5, 8, 9, 10, 17, 17, 20, 24, 30};
+	vector<int> price_list = {0, 1, 5, 8, 9, 10, 17, 17, 20, 24, 30};
 	int steel_length;
 	cin >> steel_length;
 	// 自顶向下递归法
@@ -85,5 +118,7 @@ int main(int argc, char const *argv[])
 	cout << memorized_cut_rod(price_list, steel_length) << endl;
 	// 自底向上动态规划法
 	cout << bottom_up_cut_rod(price_list, steel_length) << endl;
+	// 自底向上改进版本
+	print_cut_rod_solution(price_list, steel_length);
 	return 0;
 }
