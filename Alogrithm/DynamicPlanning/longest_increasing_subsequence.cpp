@@ -22,12 +22,12 @@ int lcs_length(const vector<int>& x_str, const vector<int>& y_str)
 		vv_num[0][j] = 0;
 	}
 
-	for(int i = 0; i < x_str_size; ++i) {
-		for(int j = 0; j < y_str_size; ++j) {
-			if(x_str[i] == y_str[j]) {
+	for (int i = 0; i < x_str_size; ++i) {
+		for (int j = 0; j < y_str_size; ++j) {
+			if (x_str[i] == y_str[j]) {
 				vv_num[i + 1][j + 1] = vv_num[i][j] + 1;
 			}
-			else if(vv_num[i][j + 1] >= vv_num[i + 1][j]) {
+			else if (vv_num[i][j + 1] >= vv_num[i + 1][j]) {
 				vv_num[i + 1][j + 1] = vv_num[i][j + 1];
 			}
 			else {
@@ -43,21 +43,21 @@ int longest_increasing_subsequence(const vector<int>& v_vec)
 {
 	int len = v_vec.size();
 	int* lis = new int[len];
-	for(int i = 0; i < len; ++i) {
+	for (int i = 0; i < len; ++i) {
 		lis[i] = 1;
 	}
 
-	for(int i = 1; i < len; ++i) {
-		for(int j = 0; j < i; ++j) {
-			if(v_vec[i] <= v_vec[j] && lis[i] < lis[j] + 1) {
+	for (int i = 1; i < len; ++i) {
+		for (int j = 0; j < i; ++j) {
+			if (v_vec[i] <= v_vec[j] && lis[i] < lis[j] + 1) {
 				lis[i] = lis[j] + 1;
 			}
 		}
 	}
 
 	int max = 0;
-	for(int i = 0; i < len; ++i) {
-		if(max < lis[i]) {
+	for (int i = 0; i < len; ++i) {
+		if (max < lis[i]) {
 			max = lis[i];
 		}
 	}
