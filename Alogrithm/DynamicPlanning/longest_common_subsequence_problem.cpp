@@ -16,12 +16,8 @@ std::pair<vector<vector<int>>, vector<vector<char>>> lcs_length(const string& x_
 	int x_str_size = x_str.size();
 	int y_str_size = y_str.size();
 
-	vector<vector<int>> vv_num(x_str_size + 1);		// 用来存放“数字”
-	vector<vector<char>> vv_ch(x_str_size + 1); 	// 用来存放“箭头”
-	for (int i = 0; i <= x_str_size; ++i) {
-		vv_num[i].resize(y_str_size + 1);
-		vv_ch[i].resize(y_str_size + 1);
-	}
+	vector<vector<int>> vv_num(x_str_size + 1, vector<int>(y_str_size + 1));	// 用来存放“数字”
+	vector<vector<int>> vv_ch(x_str_size + 1, vector<int>(y_str_size + 1)); 	// 用来存放“箭头”
 
 	for (int i = 1; i <= x_str_size; ++i) {
 		vv_num[i][0] = 0;
