@@ -19,7 +19,6 @@ int huffman_coding(const vector<int>& vec)
 		int right = q.top();
 		q.pop();
 		int z = left + right;
-		cout << z << " ";
 		q.push(z);
 	}
 	return q.top();
