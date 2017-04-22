@@ -51,8 +51,8 @@ Search_Tree_Node* Tree_search(Search_Tree_Node* x, int key)
 
 Search_Tree_Node* Tree_search_2(Search_Tree_Node* x, int key)
 {
-	while(x != nullptr && k != x->value) {
-		if(k < x->value) {
+	while (x != nullptr && k != x->value) {
+		if (k < x->value) {
 			x = x->left;
 		}
 		else {
@@ -125,20 +125,20 @@ void Tree_insert(Search_Tree_Node* T, Search_Tree_Node* z)
 		if (z->value < x->value) {
 			x = x->left;
 		}
-		else {
+		else if (z->value > x->value) {
 			x = x->right;
 		}
 	}
 
 	z->parent = y;
 	if (y == nullptr) {
-		T = z;			// tree T is empty
+		T = z;
 	}
-	else if (z->value < y->value) {
-		y->left = z;
+	else if (y->value < z->value) {
+		y->right = z;
 	}
 	else {
-		y->right = z;
+		y->left = z;
 	}
 }
 
@@ -162,15 +162,15 @@ void Transplant(Search_Tree_Node* T, Search_Tree_Node* u, Search_Tree_Node* v)
 // 搜索二叉树的删除
 void Tree_delete(Search_Tree_Node* T, Search_Tree_Node* z)
 {
-	if (z->left == nullptr) {
+	if(z->left == nullptr) {
 		Transplant(T, z, z->right);
 	}
-	else if (z->right == nullptr) {
+	else if(z->right == nullptr) {
 		Transplant(T, z, z->left);
 	}
 	else {
 		Search_Tree_Node* y = Tree_minimum(z->right);
-		if (y->parent != z) {
+		if(y->parent != nullptr) {
 			Transplant(T, y, y->right);
 			y->right = z->right;
 			y->right->parent = y;
