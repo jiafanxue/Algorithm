@@ -219,6 +219,7 @@ Status CreateSMatrix(TSMatrix* M)
 // 摧毁一个稀疏矩阵
 Status DestroySMatrix(TSMatrix* M)
 {
+	free(M);
 	M = NULL;
 	return OK;
 }
